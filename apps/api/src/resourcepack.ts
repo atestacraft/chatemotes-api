@@ -35,7 +35,7 @@ export class ResourcePack {
     this.fonts.push({
       type: 'bitmap',
       file: `minecraft:font/${name}.png`,
-      height: 7,
+      height: 10,
       ascent: 7,
       chars: [char]
     })

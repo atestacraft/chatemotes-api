@@ -129,8 +129,9 @@ fastify.route<{ Body: { name: string; url: string } }>({
       })
 
       for (const emote of emotes) {
-        resourcepack.addEmote(emote.file, emote.name)
-        resourcepack.addFont(emote.name, emote.emoji.char)
+        const emoteName = emote.name.toLowerCase()
+        resourcepack.addEmote(emote.file, emoteName)
+        resourcepack.addFont(emoteName, emote.emoji.char)
       }
 
       reply.type('application/zip')
