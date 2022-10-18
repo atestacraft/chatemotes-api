@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Emote {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  url     String
+  file    Bytes
+  emoji   Emoji  @relation(fields: [emojiId], references: [id])
+  emojiId Int    @unique
+}
+
+model Emoji {
+  id    Int    @id @default(autoincrement())
+  char  String
+  emote Emote?
+}
