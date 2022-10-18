@@ -1,16 +1,5 @@
 import Zip from 'adm-zip'
-import fs from 'fs/promises'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-const thumbnailPath = resolve(
-  dirname(fileURLToPath(import.meta.url)),
-  '..',
-  'assets',
-  'pack.png'
-)
-
-const thumbnail = await fs.readFile(thumbnailPath)
+import { resoucepackPath, resourcePackThumbnail } from './contants'
 
 export interface ResourcePackFont {
   type: 'bitmap'
@@ -35,7 +24,7 @@ export class ResourcePack {
     }
 
     this.zip.addFile('pack.mcmeta', Buffer.from(JSON.stringify(mcMeta)))
-    this.zip.addFile('pack.png', thumbnail)
+    this.zip.addFile('pack.png', resourcePackThumbnail)
   }
 
   addEmote(emote: Buffer, name: string): void {
@@ -58,14 +47,7 @@ export class ResourcePack {
       Buffer.from(JSON.stringify({ providers: this.fonts }, null, 2))
     )
 
-    const output = resolve(
-      dirname(fileURLToPath(import.meta.url)),
-      '..',
-      'assets',
-      'resourcepack.zip'
-    )
-
-    this.zip.writeZip(output)
+    this.zip.writeZip(resoucepackPath)
     return this.zip.toBuffer()
   }
 }

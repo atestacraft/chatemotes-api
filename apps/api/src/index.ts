@@ -1,9 +1,9 @@
 import Fastify from 'fastify'
-import Jimp from 'jimp'
+import got from 'got'
 import fs from 'node:fs/promises'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 import { PrismaClient } from '@rs/prisma'
+import { resoucepackPath } from './contants.js'
 import { ResourcePack } from './resourcepack.js'
 
 const fastify = Fastify()
@@ -11,13 +11,6 @@ const prisma = new PrismaClient()
 await prisma.$connect()
 
 fastify.get('/resourcepack', async (request, reply) => {
-  const resoucepackPath = resolve(
-    dirname(fileURLToPath(import.meta.url)),
-    '..',
-    'assets',
-    'resourcepack.zip'
-  )
-
   try {
     const file = await fs.readFile(resoucepackPath)
     reply.type('application/zip')
@@ -53,7 +46,7 @@ fastify.get<{ Params: { id: string } }>(
 
     if (emote) {
       reply.type('image/png')
-      reply.send(emote!.file)
+      reply.send(emote.file)
     } else {
       reply.send({})
     }
@@ -76,8 +69,13 @@ fastify.route<{ Body: { name: string; url: string } }>({
   handler: async (request, reply) => {
     try {
       const { name, url } = request.body
-      const image = await Jimp.read(request.body.url)
-      const imageBuffer = await image.getBufferAsync('image/png')
+      const downloadedImage = await got(request.body.url, {
+        responseType: 'buffer'
+      })
+
+      const imageBuffer = await sharp(downloadedImage.body)
+        .toFormat('png')
+        .toBuffer()
 
       const emoji = await prisma.emoji.findFirst({
         where: { emote: null }
@@ -120,8 +118,7 @@ fastify.route<{ Body: { name: string; url: string } }>({
       reply.type('application/zip')
       reply.send(resourcepack.getArchive())
     } catch (err) {
-      console.log(err)
-      reply.send(request.body)
+      reply.send({ error: (err as Error).message })
     }
   }
 })
