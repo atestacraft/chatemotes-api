@@ -1,5 +1,5 @@
 import Zip from 'adm-zip'
-import { resoucepackPath, resourcePackThumbnail } from './contants'
+import { resoucepackPath, resourcePackThumbnail } from './constants'
 
 export interface ResourcePackFont {
   type: 'bitmap'

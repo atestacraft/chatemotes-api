@@ -3,7 +3,7 @@ import got from 'got'
 import fs from 'node:fs/promises'
 import sharp from 'sharp'
 import { PrismaClient } from '@rs/prisma'
-import { resoucepackPath } from './contants.js'
+import { resoucepackPath } from './constants.js'
 import { ResourcePack } from './resourcepack.js'
 
 const fastify = Fastify()
