@@ -35,6 +35,24 @@ fastify.get('/emotes', async (request, reply) => {
   }
 })
 
+fastify.get('/emojis', async (request, reply) => {
+  try {
+    const emojis = await prisma.emote.findMany({
+      select: {
+        emoji: {
+          select: {
+            char: true
+          }
+        }
+      }
+    })
+
+    reply.send({ emojis: emojis.map(({ emoji }) => emoji.char) })
+  } catch {
+    reply.send({})
+  }
+})
+
 fastify.get<{ Params: { id: string } }>(
   '/emote/:id',
   async (request, reply) => {
@@ -54,7 +72,7 @@ fastify.get<{ Params: { id: string } }>(
 )
 
 fastify.route<{ Body: { name: string; url: string } }>({
-  url: '/rs',
+  url: '/upload',
   method: 'POST',
   schema: {
     body: {
