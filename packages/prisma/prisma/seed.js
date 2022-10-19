@@ -4,7 +4,52 @@ const prisma = new PrismaClient()
 await prisma.$connect()
 
 async function seed() {
-  // 1356
+  const minecraftEmoji = [
+    "☀",
+    "☁",
+    "☂",
+    "☃",
+    "☄",
+    "☑",
+    "☔",
+    "☠",
+    "☮",
+    "☯",
+    "☹",
+    "☺",
+    "♀",
+    "♂",
+    "♠",
+    "♣",
+    "♥",
+    "♦",
+    "⚓",
+    "⚔",
+    "⚗",
+    "⚠",
+    "⚡",
+    "⛄",
+    "⛈",
+    "⛏",
+    "✉",
+    "✔",
+    "❣",
+    "❄",
+    "🔥",
+    "🌊",
+    "🗡",
+    "🏹",
+    "🪓",
+    "🔱",
+    "🎣",
+    "🧪",
+    "✂",
+    "🍖",
+    "🪣",
+    "🔔",
+    "⏳"
+  ]
+
   const emojis = [
     '🀄',
     '🃏',
@@ -1365,7 +1410,9 @@ async function seed() {
   ]
 
   await prisma.emoji.createMany({
-    data: emojis.map((char) => ({ char }))
+    data: emojis
+      .filter((emoji) => !minecraftEmoji.includes(emoji))
+      .map((char) => ({ char }))
   })
 }
 
