@@ -2,12 +2,18 @@ import Fastify from 'fastify'
 import got from 'got'
 import fs from 'node:fs/promises'
 import sharp from 'sharp'
-import { PrismaClient } from '@prisma/client'
+import FastifyStatic from '@fastify/static'
+import { PrismaClient } from '../node_modules/.prisma/client'
 import { env, uploadBodySchema } from './config.js'
-import { emptyFile, resourcepackOutputPath } from './constants.js'
+import { emptyFile, pathToStatic, resourcepackOutputPath } from './constants.js'
 import { ResourcePack } from './resourcepack.js'
 
 const fastify = Fastify()
+
+fastify.register(FastifyStatic, {
+  root: pathToStatic
+})
+
 const prisma = new PrismaClient()
 await prisma.$connect()
 
