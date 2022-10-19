@@ -2,7 +2,7 @@ import Fastify from 'fastify'
 import got from 'got'
 import fs from 'node:fs/promises'
 import sharp from 'sharp'
-import { PrismaClient } from '@rs/prisma'
+import { PrismaClient } from '@prisma/client'
 import { resoucepackPath } from './constants.js'
 import { ResourcePack } from './resourcepack.js'
 
