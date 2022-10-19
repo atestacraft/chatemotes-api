@@ -1,5 +1,10 @@
 import Zip from 'adm-zip'
-import { resoucepackPath, resourcePackThumbnail } from './constants.js'
+import crypto from 'node:crypto'
+import {
+  resourcepackMeta,
+  resourcepackOutputPath,
+  resourcepackThumbnail
+} from './constants.js'
 
 export interface ResourcePackFont {
   type: 'bitmap'
@@ -10,21 +15,15 @@ export interface ResourcePackFont {
 }
 
 export class ResourcePack {
-  private zip: Zip
-  private fonts: ResourcePackFont[] = []
+  private readonly zip = new Zip()
+  private readonly fonts: ResourcePackFont[] = []
 
   constructor() {
-    this.zip = new Zip()
-
-    const mcMeta = {
-      pack: {
-        description: 'Atestacraft Chat Emotes',
-        pack_format: 9
-      }
-    }
-
-    this.zip.addFile('pack.mcmeta', Buffer.from(JSON.stringify(mcMeta)))
-    this.zip.addFile('pack.png', resourcePackThumbnail)
+    this.zip.addFile(
+      'pack.mcmeta',
+      Buffer.from(JSON.stringify(resourcepackMeta))
+    )
+    this.zip.addFile('pack.png', resourcepackThumbnail)
   }
 
   addEmote(emote: Buffer, name: string): void {
@@ -41,13 +40,13 @@ export class ResourcePack {
     })
   }
 
-  getArchive(): Buffer {
+  writeArchive(): string {
     this.zip.addFile(
       'assets/minecraft/font/default.json',
-      Buffer.from(JSON.stringify({ providers: this.fonts }, null, 2))
+      Buffer.from(JSON.stringify({ providers: this.fonts }))
     )
 
-    this.zip.writeZip(resoucepackPath)
-    return this.zip.toBuffer()
+    this.zip.writeZip(resourcepackOutputPath)
+    return crypto.createHash('sha1').update(this.zip.toBuffer()).digest('hex')
   }
 }
