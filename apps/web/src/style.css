@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #181d1f;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.emotes {
+  padding-top: 1rem;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.emote {
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: #141819;
+  width: 10em;
+  height: 10em;
+  transition: all ease-in-out 0.1s;
+}
+
+.emote:hover::after {
+  position: absolute;
+  content: '';
+  color: #fff;
+  font-size: 10px;
+  background-color: #181d1f;
+  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+  transform: scale(1.1);
+}
+
+.emote-image {
+  min-width: 5em;
+  max-width: 55%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.emote-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

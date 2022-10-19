@@ -103,7 +103,7 @@ fastify.post<{ Body: { name: string; url: string } }>(
 
 fastify
   .listen({ host: env.HOST, port: env.PORT })
-  .then(() => console.log(`http://${env.HOST}:${env.PORT}`))
+  .then(() => console.log(`http://${env.HOST}:${env.PORT}\n`))
   .catch(console.log)
 
 function onClose() {
