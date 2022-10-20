@@ -1,5 +1,4 @@
 import Zip from 'adm-zip'
-import crypto from 'node:crypto'
 import {
   resourcepackMeta,
   resourcepackOutputPath,
@@ -40,13 +39,12 @@ export class ResourcePack {
     })
   }
 
-  writeArchive(): string {
+  writeArchive(): void {
     this.zip.addFile(
       'assets/minecraft/font/default.json',
       Buffer.from(JSON.stringify({ providers: this.fonts }))
     )
 
     this.zip.writeZip(resourcepackOutputPath)
-    return crypto.createHash('sha1').update(this.zip.toBuffer()).digest('hex')
   }
 }

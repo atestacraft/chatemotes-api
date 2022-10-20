@@ -5,7 +5,8 @@ import { pathToStatic } from './constants.js'
 import { prisma } from './prisma.js'
 import { emote } from './routes/emote.js'
 import { emotes } from './routes/emotes'
-import { resourcepack } from './routes/resourcepack.js'
+import { hash } from './routes/hash.js'
+import { pack } from './routes/pack.js'
 
 const fastify = Fastify()
 
@@ -15,9 +16,10 @@ fastify.register(FastifyStatic, {
 
 fastify.register(
   (fastify, options, done) => {
+    hash(fastify, done)
+    pack(fastify, done)
     emote(fastify, done)
     emotes(fastify, done)
-    resourcepack(fastify, done)
   },
   { prefix: '/api' }
 )
