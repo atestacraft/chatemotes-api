@@ -9,7 +9,7 @@ function renderEmotesContainer() {
   return (name: string) => {
     const emoteImage = el('img', {
       className: 'emote-image',
-      src: `/emote/${name}`
+      src: `/api/emote/${name}`
     })
 
     const emoteName = el('span', {
