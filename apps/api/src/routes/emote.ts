@@ -1,7 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import sharp from 'sharp'
 import { env } from '../config.js'
-import { emptyFile } from '../constants.js'
 import { emptyImage, fetchImage } from '../helpers.js'
 import { prisma } from '../prisma.js'
 import { Resourcepack } from '../resourcepack.js'

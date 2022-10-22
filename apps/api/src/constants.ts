@@ -6,8 +6,6 @@ import { UrlHandlers } from './types.js'
 
 export const resourcepackOutputPath = pathToAssets('chat_emotes.zip')
 export const resourcepack = async () => await readFile(resourcepackOutputPath)
-export const resourcepackThumbnail = await readFile(pathToAssets('pack.png'))
-export const emptyFile = await readFile(pathToAssets('empty.png'))
 export const pathToStatic = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '..',

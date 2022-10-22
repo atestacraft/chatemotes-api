@@ -1,5 +1,5 @@
 import Zip from 'adm-zip'
-import { resourcepackOutputPath, resourcepackThumbnail } from './constants.js'
+import { resourcepackOutputPath } from './constants.js'
 import { prisma } from './prisma.js'
 import type { ResourcepackFont } from './types.js'
 
@@ -19,7 +19,6 @@ export class Resourcepack {
         })
       )
     )
-    this.zip.addFile('pack.png', resourcepackThumbnail)
   }
 
   static async createArchive(): Promise<void> {
