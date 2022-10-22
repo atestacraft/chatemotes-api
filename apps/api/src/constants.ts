@@ -46,14 +46,3 @@ export const urlHandlers: UrlHandlers = [
     (matches) => `${matches[0]}/2`
   ]
 ]
-
-export const emoteBodySchema = {
-  body: {
-    type: 'object',
-    required: ['name', 'url'],
-    properties: {
-      name: { type: 'string' },
-      url: { type: 'string' }
-    }
-  }
-}

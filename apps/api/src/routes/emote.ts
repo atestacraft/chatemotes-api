@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import sharp from 'sharp'
 import { env } from '../config.js'
-import { emoteBodySchema, emptyFile } from '../constants.js'
+import { emptyFile } from '../constants.js'
 import { fetchImage } from '../helpers.js'
 import { prisma } from '../prisma.js'
 import { Resourcepack } from '../resourcepack.js'
@@ -21,9 +21,22 @@ function preValidation(
 }
 
 export function emote(fastify: FastifyInstance, done: () => void) {
+  // upload emote
   fastify.put<EmoteBody>(
     '/emote',
-    { schema: emoteBodySchema, preValidation },
+    {
+      schema: {
+        body: {
+          type: 'object',
+          required: ['name', 'url'],
+          properties: {
+            name: { type: 'string' },
+            url: { type: 'string' }
+          }
+        }
+      },
+      preValidation
+    },
     async (request, reply) => {
       const { name, url } = request.body
 
@@ -51,27 +64,45 @@ export function emote(fastify: FastifyInstance, done: () => void) {
         }
       })
 
-      const resourcepack = new Resourcepack()
-      const emotes = await prisma.emote.findMany({
-        select: {
-          name: true,
-          file: true,
-          emoji: true
-        }
-      })
-
-      for (const emote of emotes) {
-        const emoteName = emote.name.toLowerCase()
-        resourcepack.addEmote(emote.file, emoteName)
-        resourcepack.addFont(emoteName, emote.emoji.char)
-      }
-
-      resourcepack.writeArchive()
-
+      await Resourcepack.createArchive()
       reply.send({ name, url, requestUrl })
     }
   )
 
+  // rename emote
+  fastify.post<{ Body: Omit<EmoteBody['Body'], 'url'> } & EmoteParams>(
+    '/emote/:name',
+    {
+      schema: {
+        body: {
+          type: 'object',
+          required: ['name'],
+          properties: {
+            name: { type: 'string' }
+          }
+        }
+      },
+      preValidation
+    },
+    async (request, reply) => {
+      const currentEmoteName = request.params.name
+      const newEmoteName = request.body.name
+
+      await prisma.emote.update({
+        where: {
+          name: currentEmoteName
+        },
+        data: {
+          name: newEmoteName
+        }
+      })
+
+      await Resourcepack.createArchive()
+      reply.send({ message: `Emote was successfully renamed to "${newEmoteName}".` })
+    }
+  )
+
+  // delete emote by name
   fastify.delete<EmoteParams>(
     '/emote/:name',
     { preValidation },
@@ -83,13 +114,16 @@ export function emote(fastify: FastifyInstance, done: () => void) {
             name: emoteName
           }
         })
-        reply.send({ message: `Emote "${emoteName}" has been deleted` })
+
+        await Resourcepack.createArchive()
+        reply.send({ message: `Emote "${emoteName}" was successfully deleted.` })
       } catch {
-        reply.send({ error: `Emote "${emoteName}" not found` })
+        reply.code(404).send({ message: `Emote "${emoteName}" does not exists` })
       }
     }
   )
 
+  // get emote image
   fastify.get<EmoteParams>('/emote/:name', async (request, reply) => {
     const emote = await prisma.emote.findFirst({
       where: {
