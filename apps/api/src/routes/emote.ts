@@ -1,21 +1,11 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import got from 'got'
 import sharp from 'sharp'
 import { env } from '../config.js'
-import { emptyFile } from '../constants.js'
+import { emoteBodySchema, emptyFile } from '../constants.js'
+import { fetchImage } from '../helpers.js'
 import { prisma } from '../prisma.js'
-import { ResourcePack } from '../resourcepack.js'
-
-const schema = {
-  body: {
-    type: 'object',
-    required: ['name', 'url'],
-    properties: {
-      name: { type: 'string' },
-      url: { type: 'string' }
-    }
-  }
-}
+import { Resourcepack } from '../resourcepack.js'
+import type { EmoteBody, EmoteParams } from '../types.js'
 
 function preValidation(
   request: FastifyRequest,
@@ -30,23 +20,10 @@ function preValidation(
   }
 }
 
-interface EmoteBody {
-  Body: {
-    name: string
-    url: string
-  }
-}
-
-interface EmoteParams {
-  Params: {
-    name: string
-  }
-}
-
 export function emote(fastify: FastifyInstance, done: () => void) {
   fastify.put<EmoteBody>(
     '/emote',
-    { schema, preValidation },
+    { schema: emoteBodySchema, preValidation },
     async (request, reply) => {
       const { name, url } = request.body
 
@@ -54,10 +31,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
         where: { emote: null }
       })
 
-      const { body } = await got(request.body.url, {
-        responseType: 'buffer'
-      })
-
+      const { body, requestUrl } = await fetchImage(url)
       const imageBuffer = await sharp(body).toFormat('png').toBuffer()
 
       await prisma.emote.upsert({
@@ -77,7 +51,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
         }
       })
 
-      const resourcepack = new ResourcePack()
+      const resourcepack = new Resourcepack()
       const emotes = await prisma.emote.findMany({
         select: {
           name: true,
@@ -94,11 +68,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
 
       resourcepack.writeArchive()
 
-      reply.send({
-        message: 'Emote has been added',
-        name,
-        url
-      })
+      reply.send({ name, url, requestUrl })
     }
   )
 

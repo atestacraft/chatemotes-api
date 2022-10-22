@@ -4,18 +4,11 @@ import {
   resourcepackOutputPath,
   resourcepackThumbnail
 } from './constants.js'
+import type { ResourcepackFont } from './types.js'
 
-export interface ResourcePackFont {
-  type: 'bitmap'
-  file: string
-  height: number
-  ascent: number
-  chars: string[]
-}
-
-export class ResourcePack {
+export class Resourcepack {
   private readonly zip = new Zip()
-  private readonly fonts: ResourcePackFont[] = []
+  private readonly fonts: ResourcepackFont[] = []
 
   constructor() {
     this.zip.addFile(
