@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  border: 0 solid;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+  user-select: none;
+}
+
+#app {
+  color: #fff;
+  height: inherit;
+  background-color: #1a202c;
+  flex: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.emotes {
+  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  overflow: auto;
+  position: relative;
+  min-height: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.emotes::-webkit-scrollbar {
+  display: none;
+}
+
+.emote {
+  align-items: center;
+  color: #cfd2da;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+  width: 120px;
+  border-radius: 6px;
+  background-color: #171923;
+
+  transition-property: background-color;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.emote:hover {
+  background-color: rgba(0, 0, 0, 0.48);
+}
+
+.emote-image {
+  height: 56px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  text-align: center;
+  width: 56px;
+}
+
+.emote-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.upload-form {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.upload-form input[type='text'] {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  outline: none;
+  border-radius: 6px;
+  padding: 10px;
+  color: inherit;
+  font-size: 16px;
+  padding-inline-start: 10px;
+  width: 100%;
+}
+
+.upload-form input::placeholder {
+  font-size: 16px;
+}
+
+.upload-form input[type='submit'] {
+  color: #ffffff;
+  background: #2f6ea5;
+  width: 100%;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: inherit;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .upload-form {
+    flex-direction: column;
+  }
+}
