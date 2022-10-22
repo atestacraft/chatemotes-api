@@ -51,41 +51,26 @@ export function renderUploadForm() {
   const nameInput = el('input', {
     placeholder: 'Name',
     name: 'name',
-    type: 'text'
+    type: 'text',
+    maxLength: 16,
+    minLength: 1,
+    required: true
   })
 
   const urlInput = el('input', {
     placeholder: 'Url',
     name: 'url',
-    type: 'text'
+    type: 'text',
+    required: true
   })
 
-  const submitButton = el('button', {
+  const submitButton = el('input', {
     textContent: 'Upload',
-    onclick: async (event) => {
-      event.preventDefault()
-
-      try {
-        submitButton.disabled = true
-        const payload = {
-          name: nameInput.value,
-          url: urlInput.value
-        }
-        const response = await uploadEmote(payload)
-        addEmoteToContainer(payload.name)
-        console.log({ response })
-      } catch (err) {
-        console.error(err)
-      } finally {
-        submitButton.disabled = false
-        nameInput.value = ''
-        urlInput.value = ''
-      }
-    }
+    type: 'submit'
   })
 
   const form = el(
-    'div',
+    'form',
     {
       className: 'upload-form'
     },
@@ -93,6 +78,30 @@ export function renderUploadForm() {
     urlInput,
     submitButton
   )
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault()
+
+    try {
+      if (!nameInput.value || !urlInput.value) return
+      submitButton.disabled = true
+
+      const payload = {
+        name: nameInput.value,
+        url: urlInput.value
+      }
+
+      await uploadEmote(payload)
+      addEmoteToContainer(payload.name)
+
+      nameInput.value = ''
+      urlInput.value = ''
+    } catch (err) {
+      urlInput.value = ''
+    } finally {
+      submitButton.disabled = false
+    }
+  })
 
   return form
 }
