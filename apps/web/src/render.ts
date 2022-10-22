@@ -1,5 +1,5 @@
 import { el } from '@zero-dependency/dom'
-import { uploadEmote } from './api.js'
+import { deleteEmote, uploadEmote } from './api.js'
 import { app } from './constants.js'
 
 function renderEmotesContainer() {
@@ -23,6 +23,18 @@ function renderEmotesContainer() {
         className: 'emote',
         onclick: () => {
           navigator.clipboard.writeText(name)
+        },
+        oncontextmenu: (event) => {
+          event.preventDefault()
+          const promptDelete = prompt(
+            `Are you sure you want to delete the emote "${name}"?\nPlease type "${name}" to confirm.`
+          )
+
+          if (promptDelete === name) {
+            deleteEmote(name)
+              .then(() => emoteCard.remove())
+              .catch(console.error)
+          }
         }
       },
       emoteImage,
@@ -49,7 +61,7 @@ export function renderUploadForm() {
   })
 
   const submitButton = el('button', {
-    textContent: 'Add',
+    textContent: 'Upload',
     onclick: async (event) => {
       event.preventDefault()
 
