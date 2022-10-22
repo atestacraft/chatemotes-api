@@ -21,10 +21,10 @@ fastify.register(
   { prefix: '/api' }
 )
 
-fastify
-  .listen({ host: env.HOST, port: env.PORT })
-  .then(() => console.log(`http://${env.HOST}:${env.PORT}\n`))
-  .catch(console.log)
+fastify.listen({ host: env.HOST, port: env.PORT }, (err) => {
+  if (err) throw err
+  console.log(`http://${env.HOST}:${env.PORT}\n`)
+})
 
 function onClose() {
   fastify.close()

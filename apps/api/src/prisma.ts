@@ -1,4 +1,4 @@
-import { PrismaClient } from '@rs/prisma'
+import { PrismaClient } from '@chatemotes/prisma'
 
 class Prisma extends PrismaClient {
   constructor() {

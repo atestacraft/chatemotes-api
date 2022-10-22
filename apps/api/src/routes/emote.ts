@@ -2,7 +2,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import sharp from 'sharp'
 import { env } from '../config.js'
 import { emptyFile } from '../constants.js'
-import { fetchImage } from '../helpers.js'
+import { emptyImage, fetchImage } from '../helpers.js'
 import { prisma } from '../prisma.js'
 import { Resourcepack } from '../resourcepack.js'
 import type { EmoteBody, EmoteParams } from '../types.js'
@@ -98,7 +98,9 @@ export function emote(fastify: FastifyInstance, done: () => void) {
       })
 
       await Resourcepack.createArchive()
-      reply.send({ message: `Emote was successfully renamed to "${newEmoteName}".` })
+      reply.send({
+        message: `Emote was successfully renamed to "${newEmoteName}".`
+      })
     }
   )
 
@@ -116,9 +118,13 @@ export function emote(fastify: FastifyInstance, done: () => void) {
         })
 
         await Resourcepack.createArchive()
-        reply.send({ message: `Emote "${emoteName}" was successfully deleted.` })
+        reply.send({
+          message: `Emote "${emoteName}" was successfully deleted.`
+        })
       } catch {
-        reply.code(404).send({ message: `Emote "${emoteName}" does not exists` })
+        reply
+          .code(404)
+          .send({ message: `Emote "${emoteName}" does not exists` })
       }
     }
   )
@@ -132,7 +138,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
     })
 
     reply.type('image/png')
-    reply.send(emote?.file ?? emptyFile)
+    reply.send(emote?.file ?? (await emptyImage()))
   })
 
   done()

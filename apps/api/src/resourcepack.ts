@@ -1,10 +1,6 @@
-import { prisma } from './prisma.js'
 import Zip from 'adm-zip'
-import {
-  resourcepackMeta,
-  resourcepackOutputPath,
-  resourcepackThumbnail
-} from './constants.js'
+import { resourcepackOutputPath, resourcepackThumbnail } from './constants.js'
+import { prisma } from './prisma.js'
 import type { ResourcepackFont } from './types.js'
 
 export class Resourcepack {
@@ -14,7 +10,14 @@ export class Resourcepack {
   constructor() {
     this.zip.addFile(
       'pack.mcmeta',
-      Buffer.from(JSON.stringify(resourcepackMeta))
+      Buffer.from(
+        JSON.stringify({
+          pack: {
+            description: process.env['PACK_DESCRIPTION'],
+            pack_format: 9
+          }
+        })
+      )
     )
     this.zip.addFile('pack.png', resourcepackThumbnail)
   }

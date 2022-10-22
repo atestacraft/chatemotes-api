@@ -1,4 +1,4 @@
-import type { Emoji, Emote } from '@rs/prisma'
+import type { Emoji, Emote } from '@chatemotes/prisma'
 
 export interface Emotes extends Pick<Emote, 'name'> {
   emoji: Emoji

@@ -1,6 +1,7 @@
 import got from 'got'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 import { urlHandlers } from './constants.js'
 
 export function pathToAssets(...paths: string[]): string {
@@ -42,4 +43,20 @@ export async function fetchImage(imageUrl: string) {
   }
 
   return response
+}
+
+export async function emptyImage(): Promise<Buffer> {
+  const width = 100
+  const height = 100
+  const text = 'Image not found'
+
+  const svg = `
+    <svg width="${width}" height="${height}">
+      <text x="50%" y="50%" font-weight="bold" text-anchor="middle">
+        ${text}
+      </text>
+    </svg>
+  `
+
+  return await sharp(Buffer.from(svg)).toBuffer()
 }

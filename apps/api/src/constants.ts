@@ -4,9 +4,8 @@ import { fileURLToPath } from 'node:url'
 import { pathToAssets } from './helpers.js'
 import { UrlHandlers } from './types.js'
 
-export const resourcepackOutputPath = pathToAssets('resourcepack.zip')
+export const resourcepackOutputPath = pathToAssets('chat_emotes.zip')
 export const resourcepack = async () => await readFile(resourcepackOutputPath)
-export const resourcepackMeta = await readFile(pathToAssets('pack.mcmeta'))
 export const resourcepackThumbnail = await readFile(pathToAssets('pack.png'))
 export const emptyFile = await readFile(pathToAssets('empty.png'))
 export const pathToStatic = resolve(

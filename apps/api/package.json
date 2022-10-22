@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@fastify/static": "^6.5.0",
-    "@rs/prisma": "workspace:^1.0.0",
+    "@chatemotes/prisma": "workspace:^1.0.0",
     "adm-zip": "^0.5.9",
     "dotenv": "^16.0.3",
     "envalid": "^7.3.1",
