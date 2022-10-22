@@ -1,3 +1,4 @@
-# node-esm
+# ChatEmotes API
 
-> _This template a pure ESM package. If you're having trouble importing it in your project, please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)._
+## Related
+ - [spigot-chatemotes](https://github.com/atestacraft/spigot-chatemotes)
