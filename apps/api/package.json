@@ -1,35 +1,22 @@
 {
   "name": "api",
+  "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "start": "pnpm build && cross-env NODE_ENV=production node dist/index.js",
     "dev": "tsx watch src/index.ts",
-    "build": "pnpm generate && tsc",
-    "generate": "prisma generate",
-    "migrate": "prisma migrate dev",
-    "push": "prisma db push",
-    "seed": "prisma db seed",
-    "studio": "prisma studio",
+    "build": "del-cli dist && tsc",
     "prepare": "pnpm build"
-  },
-  "prisma": {
-    "seed": "node prisma/seed.js"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",
     "@types/node": "^18.11.0",
-    "@types/sharp": "^0.31.0",
-    "prisma": "^4.5.0"
-  },
-  "packageManager": "pnpm@7.5.0",
-  "engines": {
-    "npm": "^7.0.0",
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    "@types/sharp": "^0.31.0"
   },
   "dependencies": {
     "@fastify/static": "^6.5.0",
-    "@prisma/client": "^4.5.0",
+    "@rs/prisma": "workspace:^1.0.0",
     "adm-zip": "^0.5.9",
     "dotenv": "^16.0.3",
     "envalid": "^7.3.1",

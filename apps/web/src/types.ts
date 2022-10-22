@@ -1,4 +1,4 @@
-import type { Emoji, Emote } from '../../api/node_modules/.prisma/client'
+import type { Emoji, Emote } from '@rs/prisma'
 
 export interface Emotes extends Pick<Emote, 'name'> {
   emoji: Emoji

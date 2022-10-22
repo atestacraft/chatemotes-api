@@ -3,10 +3,7 @@ import FastifyStatic from '@fastify/static'
 import { env } from './config.js'
 import { pathToStatic } from './constants.js'
 import { prisma } from './prisma.js'
-import { emote } from './routes/emote.js'
-import { emotes } from './routes/emotes'
-import { hash } from './routes/hash.js'
-import { pack } from './routes/pack.js'
+import { emote, emotes, hash, pack } from './routes/index.js'
 
 const fastify = Fastify()
 

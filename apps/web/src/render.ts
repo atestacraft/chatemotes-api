@@ -37,35 +37,19 @@ export const addEmoteToContainer = renderEmotesContainer()
 
 export function renderUploadForm() {
   const nameInput = el('input', {
-    placeholder: 'name',
+    placeholder: 'Name',
     name: 'name',
     type: 'text'
   })
 
-  const nameLabelInput = el(
-    'label',
-    {
-      textContent: 'Name:'
-    },
-    nameInput
-  )
-
   const urlInput = el('input', {
-    placeholder: 'url',
+    placeholder: 'Url',
     name: 'url',
     type: 'text'
   })
 
-  const urlLabelInput = el(
-    'label',
-    {
-      textContent: 'Url:'
-    },
-    urlInput
-  )
-
   const submitButton = el('button', {
-    textContent: 'Upload',
+    textContent: 'Add',
     onclick: async (event) => {
       event.preventDefault()
 
@@ -93,8 +77,8 @@ export function renderUploadForm() {
     {
       className: 'upload-form'
     },
-    nameLabelInput,
-    urlLabelInput,
+    nameInput,
+    urlInput,
     submitButton
   )
 

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../node_modules/.prisma/client'
+import { PrismaClient } from '@rs/prisma'
 
 class Prisma extends PrismaClient {
   constructor() {
