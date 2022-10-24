@@ -4,6 +4,11 @@ const prisma = new PrismaClient()
 await prisma.$connect()
 
 async function seed() {
+  const count = await prisma.emoji.count()
+  if (count > 0) {
+    return
+  }
+
   const EMBEDDED_EMOJI = [
     '☀',
     '☁',
