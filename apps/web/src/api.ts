@@ -8,7 +8,7 @@ import type {
 const api = new Fetcher(`${location.origin}/api/`, {
   headers: {
     'Content-Type': 'application/json',
-    Authorization: import.meta.env.API_TOKEN
+    Authorization: localStorage.getItem('API_TOKEN')!
   }
 })
 
