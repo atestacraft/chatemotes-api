@@ -9,6 +9,7 @@
   "scripts": {
     "build": "pnpm generate && del-cli dist && tsc",
     "generate": "prisma generate",
+    "deploy": "prisma migrate deploy",
     "migrate": "prisma migrate dev",
     "push": "prisma db push",
     "seed": "prisma db seed",
