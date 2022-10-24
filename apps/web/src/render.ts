@@ -1,5 +1,5 @@
 import { el } from '@zero-dependency/dom'
-import { deleteEmote, uploadEmote } from './api.js'
+import { deleteEmote, renameEmote, uploadEmote } from './api.js'
 import { app } from './constants.js'
 
 function renderEmotesContainer() {
@@ -21,8 +21,21 @@ function renderEmotesContainer() {
       'div',
       {
         className: 'emote',
-        onclick: () => {
-          navigator.clipboard.writeText(name)
+        onclick: (event) => {
+          if (event.ctrlKey) {
+            const promptNewName = prompt(`Set new the emote name:`, name)
+
+            if (promptNewName && promptNewName !== name) {
+              renameEmote(name, promptNewName)
+                .then(() => {
+                  name = promptNewName
+                  emoteName.textContent = name
+                })
+                .catch(console.error)
+            }
+          } else {
+            navigator.clipboard.writeText(name)
+          }
         },
         oncontextmenu: (event) => {
           event.preventDefault()

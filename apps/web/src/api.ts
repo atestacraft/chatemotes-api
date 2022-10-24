@@ -6,7 +6,10 @@ import type {
 } from './types.js'
 
 const api = new Fetcher(`${location.origin}/api/`, {
-  headers: { Authorization: import.meta.env.API_TOKEN }
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: import.meta.env.API_TOKEN
+  }
 })
 
 export async function loadEmotes(): Promise<Emotes[]> {
@@ -18,11 +21,16 @@ export async function uploadEmote({
   url
 }: UploadEmotePayload): Promise<UploadEmoteResponse> {
   return await api.put<UploadEmoteResponse>('emote', {
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, url })
   })
 }
 
 export async function deleteEmote(name: string): Promise<unknown> {
   return await api.delete(`emote/${name}`)
+}
+
+export async function renameEmote(name: string, newName: string) {
+  return await api.post(`emote/${name}`, {
+    body: JSON.stringify({ name: newName })
+  })
 }

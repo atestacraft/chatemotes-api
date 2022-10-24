@@ -5,7 +5,9 @@ import { pathWebStatic } from './constants.js'
 import { prisma } from './prisma.js'
 import { emote, emotes, hash, pack } from './routes/index.js'
 
-const fastify = Fastify()
+const fastify = Fastify({
+  logger: env.isDev
+})
 
 fastify.register(FastifyStatic, {
   root: pathWebStatic
