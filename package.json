@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "prepare": "pnpm --filter='./packages/prisma' run deploy && pnpm --filter='./packages/prisma' run seed",
-    "start": "pnpm run prepare && pnpm -r --filter='./apps/*' run start",
+    "prepare:db": "pnpm --filter='./packages/prisma' run deploy && pnpm --filter='./packages/prisma' run seed",
+    "start": "pnpm run prepare:db && pnpm -r --filter='./apps/*' run start",
     "dev": "pnpm -r --filter='./apps/*' run dev",
     "build": "pnpm -r --filter='./apps/*' run build",
     "format": "prettier --write --ignore-unknown **",
