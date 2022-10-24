@@ -1,6 +1,7 @@
 import Zip from 'adm-zip'
 import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
+import { env } from './config.js'
 import { pathApiAssets } from './constants.js'
 import { prisma } from './prisma.js'
 import type { ResourcepackFont } from './types.js'
@@ -48,7 +49,7 @@ export class Resourcepack {
       Buffer.from(
         JSON.stringify({
           pack: {
-            description: process.env['PACK_DESCRIPTION'],
+            description: env.PACK_DESCRIPTION,
             pack_format: 9
           }
         })
