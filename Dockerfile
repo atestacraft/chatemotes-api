@@ -6,9 +6,9 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-COPY packages/prisma/package.json ./packages/prisma
-COPY apps/web/package.json ./apps/web
-COPY apps/api/package.json ./apps/api
+COPY packages/prisma/package.json ./packages/prisma/
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
 
 COPY . .
 
