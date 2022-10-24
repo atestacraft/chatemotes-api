@@ -1,17 +1,6 @@
 import got from 'got'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { urlHandlers } from './constants.js'
-
-export function pathToAssets(...paths: string[]): string {
-  return resolve(
-    dirname(fileURLToPath(import.meta.url)),
-    '..',
-    'assets',
-    ...paths
-  )
-}
 
 export async function fetchImage(imageUrl: string) {
   for (const [regexp, to] of urlHandlers) {

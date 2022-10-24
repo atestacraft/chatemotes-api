@@ -63,7 +63,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
         }
       })
 
-      await Resourcepack.createArchive()
+      await Resourcepack.generatePack()
       reply.send({ name, url, requestUrl })
     }
   )
@@ -96,7 +96,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
         }
       })
 
-      await Resourcepack.createArchive()
+      await Resourcepack.generatePack()
       reply.send({
         message: `Emote was successfully renamed to "${newEmoteName}".`
       })
@@ -116,7 +116,7 @@ export function emote(fastify: FastifyInstance, done: () => void) {
           }
         })
 
-        await Resourcepack.createArchive()
+        await Resourcepack.generatePack()
         reply.send({
           message: `Emote "${emoteName}" was successfully deleted.`
         })

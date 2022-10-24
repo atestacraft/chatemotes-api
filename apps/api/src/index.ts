@@ -1,14 +1,14 @@
 import Fastify from 'fastify'
 import FastifyStatic from '@fastify/static'
 import { env } from './config.js'
-import { pathToStatic } from './constants.js'
+import { pathWebStatic } from './constants.js'
 import { prisma } from './prisma.js'
 import { emote, emotes, hash, pack } from './routes/index.js'
 
 const fastify = Fastify()
 
 fastify.register(FastifyStatic, {
-  root: pathToStatic
+  root: pathWebStatic
 })
 
 fastify.register(

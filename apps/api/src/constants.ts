@@ -1,12 +1,17 @@
-import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { pathToAssets } from './helpers.js'
 import { UrlHandlers } from './types.js'
 
-export const resourcepackOutputPath = pathToAssets('chat_emotes.zip')
-export const resourcepack = async () => await readFile(resourcepackOutputPath)
-export const pathToStatic = resolve(
+export function pathApiAssets(...paths: string[]): string {
+  return resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '..',
+    'assets',
+    ...paths
+  )
+}
+
+export const pathWebStatic = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '..',
   '..',

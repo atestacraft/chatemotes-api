@@ -1,9 +1,9 @@
 import type { FastifyInstance } from 'fastify'
-import { resourcepack } from '../constants.js'
+import { Resourcepack } from '../resourcepack.js'
 
 export function pack(fastify: FastifyInstance, done: () => void) {
   fastify.get('/pack', async (request, reply) => {
-    const pack = await resourcepack()
+    const pack = await Resourcepack.readPack()
     reply.type('application/zip')
     reply.send(pack)
   })
