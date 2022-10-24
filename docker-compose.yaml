@@ -1,17 +1,22 @@
 version: '3.8'
 
 services:
+  app:
+    image: ghcr.io/atestacraft/chatemotes-api:latest
+    ports:
+      - 5005:5005
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:14-alpine
     restart: always
     volumes:
       - pg-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: rs
-      POSTGRES_PASSWORD: rs
-      POSTGRES_DB: rs
-    ports:
-      - 5432:5432
+    env_file:
+      - .env
 
 volumes:
   pg-data:
