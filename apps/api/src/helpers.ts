@@ -25,7 +25,7 @@ export async function fetchImage(imageUrl: string) {
     throw new Error(`Invalid response code: ${response.statusCode}`)
   }
 
-  if (response.body.byteLength >= 256 * 1024) {
+  if (response.body.byteLength >= 2048 * 1024) {
     throw new Error(
       `Emote is too large (${(response.body.byteLength / 1024).toFixed(2)} KB)`
     )
