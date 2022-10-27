@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import sharp from 'sharp'
+import { Prisma } from '@chatemotes/prisma'
 import { env } from '../config.js'
 import { emptyImage, fetchImage } from '../helpers.js'
 import { prisma } from '../prisma.js'
@@ -38,30 +39,38 @@ export function emote(fastify: FastifyInstance, done: () => void) {
     },
     async (request, reply) => {
       const { name, url } = request.body
-
-      const emoji = await prisma.emoji.findFirst({
-        where: { emote: null }
-      })
-
       const { body, requestUrl } = await fetchImage(url)
       const imageBuffer = await sharp(body).toFormat('png').toBuffer()
 
-      await prisma.emote.upsert({
-        where: {
-          name
+      await prisma.$transaction(
+        async (tc) => {
+          const emoji = await tc.emoji.findFirst({
+            where: {
+              emote: null
+            }
+          })
+
+          return await tc.emote.upsert({
+            where: {
+              name
+            },
+            create: {
+              name,
+              url,
+              file: imageBuffer,
+              emojiId: emoji!.id
+            },
+            update: {
+              name,
+              url,
+              file: imageBuffer
+            }
+          })
         },
-        create: {
-          name,
-          url,
-          file: imageBuffer,
-          emojiId: emoji!.id
-        },
-        update: {
-          name,
-          url,
-          file: imageBuffer
+        {
+          isolationLevel: Prisma.TransactionIsolationLevel.Serializable
         }
-      })
+      )
 
       await Resourcepack.generatePack()
       reply.send({ name, url, requestUrl })
