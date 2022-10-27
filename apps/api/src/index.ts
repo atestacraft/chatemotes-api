@@ -1,4 +1,5 @@
 import Fastify from 'fastify'
+import FastifyCors from '@fastify/cors'
 import FastifyStatic from '@fastify/static'
 import { env } from './config.js'
 import { pathWebStatic } from './constants.js'
@@ -11,6 +12,10 @@ const fastify = Fastify({
 
 fastify.register(FastifyStatic, {
   root: pathWebStatic
+})
+
+fastify.register(FastifyCors, {
+  origin: '*'
 })
 
 fastify.register(
