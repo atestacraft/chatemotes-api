@@ -85,7 +85,7 @@ body {
   width: 100%;
 }
 
-.upload-form input[type='text'] {
+.upload-form input[type='text'], input[type='password'] {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.16);
   outline: none;

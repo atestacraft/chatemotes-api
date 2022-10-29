@@ -61,6 +61,18 @@ function renderEmotesContainer() {
 export const addEmoteToContainer = renderEmotesContainer()
 
 export function renderUploadForm() {
+  const tokenInput = el('input', {
+    placeholder: 'Token',
+    name: 'token',
+    type: 'password',
+    required: true,
+    tabIndex: -1,
+    value: localStorage.getItem('API_TOKEN')!,
+    oninput: () => {
+      localStorage.setItem('API_TOKEN', tokenInput.value)
+    }
+  })
+
   const nameInput = el('input', {
     placeholder: 'Name',
     name: 'name',
@@ -87,6 +99,7 @@ export function renderUploadForm() {
     {
       className: 'upload-form'
     },
+    tokenInput,
     nameInput,
     urlInput,
     submitButton
